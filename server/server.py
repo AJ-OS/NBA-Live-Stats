@@ -4,6 +4,8 @@ from nba_api.stats.static import players
 from nba_api.live.nba.endpoints import scoreboard
 from nba_api.stats.endpoints import playercareerstats
 import requests
+from flask_sqlalchemy import SQLAlchemy
+import psycopg2
 
 
 """ all set params below
@@ -13,7 +15,7 @@ import requests
 """
 
 
-# fix currently only showing stats for first year of play
+# needs rewrite for PostgresSQL
 def searchDictJson(player_dict, ID_Header):
     # find players team abbreviation
     temp = None
@@ -28,6 +30,29 @@ def searchDictJson(player_dict, ID_Header):
 
 app = Flask(__name__)
 CORS(app)
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    "postgresql://postgres:your_password@localhost:5432/nba-stats"
+)
+db = SQLAlchemy(app)
+
+connection = psycopg2.connect(
+    "dbname=nba-stats user=mitt host=localhost password=smash"
+)
+
+connection
+
+cur = connection.cursor()
+
+type(cur)
+
+
+class Player(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    team_abbreviation = db.Column(db.String(10), nullable=False)
+
+    def __repr__(self):
+        return f"<Player {self.name}>"
 
 
 # --------------------------------
@@ -51,10 +76,6 @@ def search_player():
     player_dict = career.get_dict()
 
     team_abb = searchDictJson(player_dict, "GP")
-
-
-
-
 
 
 # get live game scores NBA
@@ -109,7 +130,7 @@ def search_leaders():
             data = response.json()
             players = data.get("resultSet", {}).get("rowSet", [])
 
-            #rewrite?
+            # rewrite?
             if players:
                 top_player = players[0]
                 player_id = top_player[0]
@@ -139,38 +160,7 @@ if __name__ == "__main__":
     app.run(debug=True, port="8080")
 
 
-'''
+""" 
 
-    # get users input from tsx
-    data = request.json
-    player_name = data.get("name", "")
-
-    findPlayer = players.find_players_by_full_name(player_name)
-
-    inputId = findPlayer[0]["id"]
-
-    # get players stats
-    career = playercareerstats.PlayerCareerStats(player_id=inputId)
-
-    # dictionary
-    player_dict = career.get_dict()
-
-    team_abb = searchDictJson(player_dict, "GP")
-
-    # testing case results
-    if findPlayer:
-        first_name = findPlayer[0][
-            "first_name"
-        ]  # use findPlayer for some reason dict does not show name?
-        last_name = findPlayer[0]["last_name"]
-        test = team_abb
-        return (
-            jsonify(
-                {"message": f"{first_name} {last_name}, {test}", "status": "success"}
-            ),
-            200,
-        )
-    else:
-        return jsonify({"message": "Player not found!", "status": "error"}), 404
-
-'''
+    
+"""
