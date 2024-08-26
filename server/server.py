@@ -15,7 +15,6 @@ import psycopg2
 """
 
 
-# needs rewrite for PostgresSQL
 def searchDictJson(player_dict, ID_Header):
     # find players team abbreviation
     temp = None
@@ -116,6 +115,7 @@ def search_scoreboard():
 
 
 # get stats leaders for 23-24 NBA season through request/url response
+# uses api rather than sql for fasters stats
 @app.route("/api/leaders", methods=["GET"])
 def search_leaders():
     stats_categories = ["PTS", "AST", "REB", "BLK", "STL"]
@@ -156,11 +156,23 @@ def search_leaders():
     return jsonify(results)
 
 
+@app.route("/api/league-stats", methods=["GET"])
+def searchDB():
+    connection = psycopg2.connect(
+    "dbname=nba-stats user=mitt host=localhost password=smash"
+)
+    connection
+    cur = connection.cursor()
+    type(cur)
+    
+    cur.execute(
+    """SELECT player 
+    FROM league_leaders"""
+    )
+    temp = cur.fetchall()
+    
+    return jsonify(temp)
+
+
 if __name__ == "__main__":
     app.run(debug=True, port="8080")
-
-
-""" 
-
-    
-"""
