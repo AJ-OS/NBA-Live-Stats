@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input_form {
+    background-color: blue;
+    color: white;
+}
+
+.league-stats-container {
+    display: flex;
+    justify-content: center;
+}
+
+.league-stats {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.league-title {
+    margin-top: 550px;
+    margin-left: 12px;
+}
+
+.PTS-lead {
+    width: 5%;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    color: #000;
+}
+
+.PTS-lead {
+    width: 10%;
+    text-align: center;
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.footer {
+    margin-top: 50px;
+    width: 100%;
+    /* Full width of the screen */
+    background-color: #6f6f6f;
+    padding: 20px 0;
+    /* Adjusted padding for better appearance */
+    text-align: center;
+    color: #ffffff;
+    /* Ensure text color contrasts with the background */
+    font-size: 16px;
+    /* Adjust font size as needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Optional: to add a slight shadow for better visibility */
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    /* Space between icon and text */
+}
+
+.footer-icon {
+    height: 30px;
+    width: 30px;
+}
+
+.today-game {
+    margin-top: 300px;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
